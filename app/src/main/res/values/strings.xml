@@ -1,0 +1,72 @@
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">CamWeather</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_maps">Maps Location</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_share">Share</string>
+
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_label" translatable="false">Location</string>
+
+    <string name="pref_units_label" translatable="false">Temperature Units</string>
+    <string name="pref_units_label_metric" translatable="false">\u00B0C</string>
+    <string name="pref_units_label_imperial" translatable="false">\u00B0F</string>
+
+    <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
+    <string name="pref_location_default" translatable="false">Phnom Penh,KH</string>
+    <string name="title_activity_detail">Details</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="today"> ​ថ្ងៃនេះ</string>
+    <string name="tomorrow"> ថ្ងៃស្អែក</string>
+    <!-- Temperature formats -->
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+
+    <!-- Windspeed format in mph [CHAR LIMIT=NONE] -->
+    <string name="format_wind_mph">ល្បឿនខ្យល់បក់: <xliff:g id="wind_speed">
+        %1.0f</xliff:g> mph <xliff:g id="wind_dir">%2$s</xliff:g></string>
+
+    <!-- Windspeed format in km/h [CHAR LIMIT=NONE] -->
+    <string name="format_wind_kmh">ល្បឿនខ្យល់បក់: <xliff:g id="wind_speed">
+        %1.0f</xliff:g> km/h <xliff:g id="wind_dir">%2$s</xliff:g></string>
+
+    <!-- Pressure format in hPa [CHAR LIMIT=NONE] -->
+    <string name="format_pressure">សម្ភាធខ្យល់: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+
+    <!-- Humidity format in % [CHAR LIMIT=NONE] -->
+    <string name="format_humidity">កម្រិតសំណើម: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    
+    <!--Compass-->
+    
+    <string name="N">ឧត្តរ</string>
+    <string name="NE">ឦសាន</string>
+    <string name="E">បូព៌</string>
+    <string name="SE">អាគ្នេយ៍</string>
+    <string name="S">ទក្សិណ</string>
+    <string name="SW">និរតី</string>
+    <string name="W">បស្ចឹម</string>
+    <string name="NW">ពាយ័ព្យ</string>
+
+    <!--City Name-->
+    <string name="PhnomPenh">Phnom Penh,KH</string>
+    <string name="KampongSpeu">Kampong Speu,KH</string>
+    <string name="KampongCham">Kampong Cham,KH</string>
+    <string name="KampongChnang">Kampong Chnang,KH</string>
+    <string name="Kandal">Kandal,KH</string>
+    <string name="KampongThom">Kampong Thom,KH</string>
+
+    <!--City Name in Khmer-->
+    <string name="K_PhnomPenh">ភ្នំពេញ</string>
+    <string name="K_KampongSpeu">កំពង់ស្ពឺ</string>
+    <string name="K_KampongCham">កំពង់ចាម</string>
+    <string name="K_KampongChnang">កំពង់ឆ្នាំង</string>
+    <string name="K_Kandal">កណ្ដាល</string>
+    <string name="K_KampongThom">កំពង់ធំ​</string>
+
+</resources>

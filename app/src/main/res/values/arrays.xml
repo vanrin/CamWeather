@@ -1,0 +1,29 @@
+<resources>
+    <string-array name="pref_units_options">
+        <item>@string/pref_units_label_metric</item>
+        <item>@string/pref_units_label_imperial</item>
+    </string-array>
+
+    <string-array name="pref_units_values">
+        <item>@string/pref_units_metric</item>
+        <item>@string/pref_units_imperial</item>
+    </string-array>
+    <!--Location-->
+    <string-array name="pref_location_options">
+        <item>@string/K_PhnomPenh</item>
+        <item>@string/K_KampongSpeu</item>
+        <item>@string/K_KampongCham</item>
+        <item>@string/K_KampongChnang</item>
+        <item>@string/K_Kandal</item>
+        <item>@string/K_KampongThom</item>
+    </string-array>
+    <string-array name="pref_location_values">
+        <item>@string/PhnomPenh</item>
+        <item>@string/KampongSpeu</item>
+        <item>@string/KampongCham</item>
+        <item>@string/KampongChnang</item>
+        <item>@string/Kandal</item>
+        <item>@string/KampongThom</item>
+    </string-array>
+</resources>
+

@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/CamWeather</item>
+
+    </style>
+    <style name="ForecastTheme" parent="@style/AppTheme">
+        <item name="android:actionBarStyle">@style/CamWeather.NoTitle</item>
+    </style>
+    <style name="CamWeather"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/CamWeather_blue</item>
+    </style>
+    <style name="CamWeather.NoTitle" parent="@style/CamWeather">
+        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="android:logo">@drawable/ic_logo</item>
+    </style>
+    <style name="ForecastListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
+
+    </style>
+</resources>
