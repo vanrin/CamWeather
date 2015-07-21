@@ -18,7 +18,6 @@
 
             <!-- Header: Day, Date -->
             <TextView
-                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/detail_day_textview"
                 android:layout_height="wrap_content"
                 android:minWidth="120dp"
@@ -26,7 +25,6 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/detail_date_textview"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -38,12 +36,10 @@
         <!-- Main content: high, low, art, weather state -->
         <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:fontFamily="sans-serif-light"
                 android:id="@+id/detail_high_textview"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -59,7 +55,6 @@
 
             <!-- Humidity, wind, pressure -->
             <TextView
-                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/detail_humidity_textview"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -67,7 +62,6 @@
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
-                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/detail_pressure_textview"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -75,7 +69,6 @@
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
-                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/detail_wind_textview"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -86,7 +79,6 @@
         <LinearLayout
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
@@ -94,9 +86,12 @@
                 android:id="@+id/detail_icon"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
-
             <TextView
-                android:fontFamily="sans-serif-condensed"
+                android:id="@+id/detail_location_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phnom Penhh"/>
+            <TextView
                 android:id="@+id/detail_forecast_textview"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

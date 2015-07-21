@@ -2,6 +2,7 @@ package com.gracejvc.khmerweatherforecast;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,8 +44,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mHumidityView;
     private TextView mWindView;
     private TextView mPressureView;
+    private TextView mLocationView;
+    public static Typeface battambong;
     public DetailFragment() {
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -75,6 +79,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mHumidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
         mWindView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
         mPressureView = (TextView) rootView.findViewById(R.id.detail_pressure_textview);
+        mLocationView = (TextView) rootView.findViewById(R.id.detail_location_textview);
         return rootView;
 
 
@@ -124,7 +129,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (intent==null || !intent.hasExtra(DetailActivity.DATE_KEY)){
             return null;
         }
-        String forecastDate = intent.getStringExtra(DetailActivity.DATE_KEY);
 
         String[] columns = {
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -157,8 +161,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
         if (data != null && data.moveToFirst()) {
+            battambong = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Battambang.ttf");
             // Read weather condition ID from cursor
+            mDateView.setTypeface(battambong);
+            mFriendlyDateView.setTypeface(battambong);
+            mDescriptionView.setTypeface(battambong);
+            mPressureView.setTypeface(battambong);
+            mWindView.setTypeface(battambong);
+            mHumidityView.setTypeface(battambong);
+
             int weatherId = data.getInt(data.getColumnIndex(WeatherEntry.COLUMN_WEATHER_ID));
             // Use placeholder Image
             mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
@@ -170,6 +183,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mFriendlyDateView.setText(friendlyDateText);
             mDateView.setText(dateText);
             String cityName = data.getString(data.getColumnIndex(WeatherContract.LocationEntry.COLUMN_CITY_NAME));
+            mLocationView.setText(cityName);
             // Read description from cursor and update view
             String description = Utility.getDescriptionForWeatherCondition(weatherId);
             mDescriptionView.setText(description);

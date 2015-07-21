@@ -2,6 +2,7 @@ package com.gracejvc.khmerweatherforecast;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_FUTURE_DAY = 1;
     // Flag to determine if we want to use a separate view for "today".
     private boolean mUseTodayLayout = true;
+    public static Typeface battambong;
     public void setUseTodayLayout(boolean useTodayLayout) {
         mUseTodayLayout = useTodayLayout;
     }
@@ -32,6 +34,7 @@ public class ForecastAdapter extends CursorAdapter {
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
+        battambong= Typeface.createFromAsset(context.getAssets(),"fonts/Battambang.ttf");
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -104,6 +107,10 @@ public class ForecastAdapter extends CursorAdapter {
             descriptionView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
             highTempView = (TextView) view.findViewById(R.id.list_item_high_textview);
             lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
+
+            dayView.setTypeface(battambong);
+            descriptionView.setTypeface(battambong);
+
         }
     }
 }

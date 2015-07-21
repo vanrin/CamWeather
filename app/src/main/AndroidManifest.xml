@@ -39,6 +39,8 @@
             android:authorities="com.gracejvc.khmerweatherforecast"
             android:name=".data.WeatherProvider"
             />
+        <service android:name=".service.CamWeatherService"/>
+        <receiver android:name=".service.CamWeatherService$AlarmReceiver" android:enabled="true"/>
     </application>
 
 </manifest>

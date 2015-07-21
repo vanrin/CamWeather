@@ -37,7 +37,7 @@
         %1.0f</xliff:g> km/h <xliff:g id="wind_dir">%2$s</xliff:g></string>
 
     <!-- Pressure format in hPa [CHAR LIMIT=NONE] -->
-    <string name="format_pressure">សម្ភាធខ្យល់: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_pressure">សម្ពាធខ្យល់: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
 
     <!-- Humidity format in % [CHAR LIMIT=NONE] -->
     <string name="format_humidity">កម្រិតសំណើម: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>

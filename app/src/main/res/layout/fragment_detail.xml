@@ -10,23 +10,20 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
+                <!-- Header: Day, Date -->
+                <TextView
+                    android:id="@+id/detail_day_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
 
-        <!-- Header: Day, Date -->
-        <TextView
-            android:fontFamily="sans-serif-condensed"
-            android:id="@+id/detail_day_textview"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <TextView
-            android:fontFamily="sans-serif-condensed"
-            android:id="@+id/detail_date_textview"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/grey_700"
-            android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/detail_date_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey_700"
+                    android:textSize="16sp" />
 
         <!-- Main content: high, low, art, weather state -->
         <LinearLayout
@@ -43,7 +40,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/detail_high_textview"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -69,20 +65,24 @@
                     android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
+                <TextView
+                    android:id="@+id/detail_location_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phnom Penhh"/>
                 <TextView
                     android:id="@+id/detail_forecast_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/grey_700" />
+
             </LinearLayout>
         </LinearLayout>
 
         <!-- Humidity, wind, pressure -->
         <LinearLayout
             android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:orientation="vertical">
