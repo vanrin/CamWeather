@@ -4,6 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Permissions required by the sync adapter -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,10 +45,31 @@
         </activity>
         <provider
             android:authorities="com.gracejvc.khmerweatherforecast"
+            android:syncable="true"
+            android:exported="false"
             android:name=".data.WeatherProvider"
             />
-        <service android:name=".service.CamWeatherService"/>
-        <receiver android:name=".service.CamWeatherService$AlarmReceiver" android:enabled="true"/>
+        <!-- SyncAdapter's dummy authentication service -->
+        <service android:name=".sync.CamWeatherAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <service
+            android:name=".sync.CamWeatherSyncService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
     </application>
 
 </manifest>
