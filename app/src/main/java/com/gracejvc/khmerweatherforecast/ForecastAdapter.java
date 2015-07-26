@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by Chhea Vanrin on 7/18/2015.
  */
@@ -40,15 +42,19 @@ public class ForecastAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         int viewType = getItemViewType(cursor.getPosition());
         int layoutId = -1;
+        int visibleId = View.VISIBLE;
         if (viewType==VIEW_TYPE_TODAY){
             layoutId= R.layout.list_item_forecast_today;
         }
         else if (viewType==VIEW_TYPE_FUTURE_DAY){
             layoutId = R.layout.list_item_forecast;
+            visibleId = View.GONE;
         }
         View view= LayoutInflater.from(context).inflate(layoutId, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         view.setTag(viewHolder);
+        viewHolder.locationView.setVisibility(visibleId);
         return view;
     }
 
@@ -57,21 +63,26 @@ public class ForecastAdapter extends CursorAdapter {
             ViewHolder viewHolder = (ViewHolder)view.getTag();
         int viewType =getItemViewType(cursor.getPosition());
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
+        int fallBackIconId;
         switch (viewType){
             case VIEW_TYPE_TODAY:{
-                viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+                fallBackIconId = Utility.getArtResourceForWeatherCondition(weatherId);
                 break;
             }
-            case VIEW_TYPE_FUTURE_DAY:{
-                viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherId));
+            default:{
+                fallBackIconId =Utility.getIconResourceForWeatherCondition(weatherId);
                 break;
             }
         }
-        // Read weather icon ID from cursor
 
-        // Use placeholder image for now
-//        viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
-
+        Glide.with(mContext)
+                .load(Utility.getArtUrlForWeatherCondition(mContext,weatherId))
+                .error(fallBackIconId)
+                .crossFade()
+                .into(viewHolder.iconView);
+        //  Get city name
+        String cityName = cursor.getString(ForecastFragment.COL_CITY_NAME);
+        viewHolder.locationView.setText(cityName);
         // Read date from cursor
         String dateString = cursor.getString(ForecastFragment.COL_WEATHER_DATE);
 
@@ -79,7 +90,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         viewHolder.dayView.setText(Utility.getFriendlyDayString(context,dateString));
         // Read weather forecast from cursor
-        String description = Utility.getDescriptionForWeatherCondition(weatherId);
+        String description = Utility.getDescriptionForWeatherCondition(context,weatherId);
         // Find TextView and set weather forecast on it
         viewHolder.descriptionView.setText(description);
 
@@ -100,13 +111,15 @@ public class ForecastAdapter extends CursorAdapter {
         public final TextView descriptionView;
         public final TextView highTempView;
         public final TextView lowTempView;
+        public final TextView locationView;
 
         public ViewHolder(View view) {
             iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-            dayView = (TextView) view.findViewById(R.id.list_item_day_textview);
+            dayView = (TextView) view.findViewById(R.id.list_item_date_textview);
             descriptionView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
             highTempView = (TextView) view.findViewById(R.id.list_item_high_textview);
             lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
+            locationView = (TextView) view.findViewById(R.id.list_item_location_textview);
 
             dayView.setTypeface(battambong);
             descriptionView.setTypeface(battambong);

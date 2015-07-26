@@ -1,7 +1,7 @@
 <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">CamWeather</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="empty_forecast_list">សូមអភ័យទោស!!​ សូមភ្ជាប់ទៅកាន់ Internet ជាមុនសិន</string>
     <string name="action_settings">Settings</string>
     <string name="action_maps">Maps Location</string>
     <string name="action_refresh">Refresh</string>
@@ -29,18 +29,19 @@
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
 
     <!-- Windspeed format in mph [CHAR LIMIT=NONE] -->
-    <string name="format_wind_mph">ល្បឿនខ្យល់បក់: <xliff:g id="wind_speed">
+    <string name="format_wind_mph"><xliff:g id="wind_speed">
         %1.0f</xliff:g> mph <xliff:g id="wind_dir">%2$s</xliff:g></string>
-
+    <string name="wind">ល្បឿនខ្យល់</string>
     <!-- Windspeed format in km/h [CHAR LIMIT=NONE] -->
-    <string name="format_wind_kmh">ល្បឿនខ្យល់បក់: <xliff:g id="wind_speed">
+    <string name="format_wind_kmh"><xliff:g id="wind_speed">
         %1.0f</xliff:g> km/h <xliff:g id="wind_dir">%2$s</xliff:g></string>
-
+    <string name="pressure">សម្ពាធខ្យល់</string>
     <!-- Pressure format in hPa [CHAR LIMIT=NONE] -->
-    <string name="format_pressure">សម្ពាធខ្យល់: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+    <string name="format_pressure"><xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
 
+    <string name="humidity">កម្រិតសំណើម</string>
     <!-- Humidity format in % [CHAR LIMIT=NONE] -->
-    <string name="format_humidity">កម្រិតសំណើម: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_humidity"><xliff:g id="humidity">%1.0f</xliff:g> %%</string>
 
     <!-- SyncAdapter related -->
     <string name="sync_account_type">camweather.example.com</string>
@@ -57,13 +58,12 @@
     <!-- Strings related to Notification preference -->
     <string name="pref_last_notification">last_notification</string>
 
-
     <!-- Strings related to Notification Enabled preference -->
     <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
-    <string name="pref_enable_notifications_label">Weather Notifications</string>
+    <string name="pref_enable_notifications_label">Notifications</string>
 
-    <string name="pref_enable_notifications_true">Enabled</string>
-    <string name="pref_enable_notifications_false">Not Enabled</string>
+    <string name="pref_enable_notifications_true">បិត</string>
+    <string name="pref_enable_notifications_false">បើក</string>
     <string name="pref_enable_notifications_default" translatable="false">true</string>
     <!--Compass-->
     
@@ -91,5 +91,78 @@
     <string name="K_KampongChnang">កំពង់ឆ្នាំង</string>
     <string name="K_Kandal">កណ្ដាល</string>
     <string name="K_KampongThom">កំពង់ធំ​</string>
+    <string name="pref_art_pack_label">កម្រិតរូបភាព</string>
 
+    <!-- Label for Sunshine option in art pack preference [CHAR LIMIT=25] -->
+    <string name="pref_art_pack_label_sunshine">ច្បាស់ល្អ</string>
+
+    <!-- Label for cute dogs option in art pack preference [CHAR LIMIT=25] -->
+    <string name="pref_art_pack_label_cute_dogs">ធម្មតា</string>
+
+    <!-- Key name for art pack unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_art_pack_key" translatable="false">art_pack</string>
+
+    <!-- Value in SharedPreferences for Sunshine art pack option [CHAR LIMIT=NONE] -->
+    <string name="pref_art_pack_sunshine" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
+
+    <!-- Value in SharedPreferences for cute dogs art pack  option [CHAR LIMIT=NONE] -->
+    <string name="pref_art_pack_cute_dogs" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-mdpi/art_%s.png</string>
+    <!-- Weather Conditions -->
+    <string name="condition_2xx">ខ្យល់កន្ត្រាក់</string>
+    <string name="condition_3xx">រលឹម</string>
+    <string name="condition_500">ភ្លៀងតិច</string>
+    <string name="condition_501">ភ្លៀងល្មម</string>
+    <string name="condition_502">ភ្លៀងខ្លាំង</string>
+    <string name="condition_503">ភ្លៀងជំនន់</string>
+    <string name="condition_504">ភ្លៀងជំនន់ខ្លាំង</string>
+    <string name="condition_511">ភ្លៀងជំនោរ</string>
+    <string name="condition_520">ធ្លាក់ភ្លៀងតិចៗ</string>
+    <string name="condition_521">ធ្លាក់ភ្លៀង</string>
+    <string name="condition_522">ធ្លាក់ភ្លៀងខ្លាំង</string>
+    <string name="condition_531">ភ្លៀងកក់ខែ</string>
+    <string name="condition_600">ធ្លាក់ព្រិលតិចៗ</string>
+    <string name="condition_601">ធ្លាក់ព្រិល</string>
+    <string name="condition_602">ធ្លាក់ព្រិលខ្លាំង</string>
+    <string name="condition_611">ធ្លាក់ទឹកកក</string>
+    <string name="condition_612">ភ្លៀងលាយទឹកកក</string>
+    <string name="condition_615">ភ្លៀងលាយព្រិល</string> <!-- light rain and snow -->
+    <string name="condition_616">ភ្លៀងលាយព្រិល</string>
+    <string name="condition_620">ភ្លៀងលាយព្រិល</string> <!-- light shower snow -->
+    <string name="condition_621">ភ្លៀងលាយព្រិល</string>
+    <string name="condition_622">ភ្លៀងលាយព្រិល</string> <!-- heavy shower snow -->
+    <string name="condition_701">អ័ភ្រសន្សើម</string>
+    <string name="condition_711">ផ្សែងងងិត</string>
+    <string name="condition_721">ចុះអ័ភ្រ</string>
+    <string name="condition_731">ធូលី</string>
+    <string name="condition_741">ចុះអ័ភ្រ</string>
+    <string name="condition_751">ធូលីខ្សាច់</string>
+    <string name="condition_761">ធូលី</string>
+    <string name="condition_762">ផ្ទុះភ្នំភ្លើង</string>
+    <string name="condition_771">ព្យុះខ្លាំងឆាប់ស្ងប់</string>
+    <string name="condition_781">ព្យុះសង្ឃា</string>
+    <string name="condition_800">ស្រលាស់ល្អ</string>
+    <string name="condition_801">មេឃស្រលាស់</string>
+    <string name="condition_802">បំណែកពពកតូចៗ</string>
+    <string name="condition_803">បំណែកពពកធំៗ</string>
+    <string name="condition_804">មេឃស្រទំ</string>
+    <string name="condition_900">ព្យុះសង្ឃរា</string>
+    <string name="condition_901">ព្យុះត្រូពិច</string>
+    <string name="condition_902">ខ្យល់ព្យុះ</string>
+    <string name="condition_903">មេឃត្រជាក់</string>
+    <string name="condition_904">មេឃក្ដៅ</string>
+    <string name="condition_905">ធ្លាក់ខ្យល់</string>
+    <string name="condition_906">ធ្លាក់ព្រិល</string>
+    <string name="condition_951">ស្ងប់ខ្យល់</string>
+    <string name="condition_952">ខ្យល់បក់រំភើយ</string>
+    <string name="condition_953">ខ្យល់បក់រំភើយ</string>
+    <string name="condition_954">ខ្យល់បក់រំភើយ</string> <!-- moderate breeze -->
+    <string name="condition_955">ខ្យល់បក់រំភើយ</string>
+    <string name="condition_956">ខ្យល់បក់រំភើយ</string>
+    <string name="condition_957">ខ្យល់ខ្លាំង</string>
+    <string name="condition_958">ខ្យល់ព្យុះខ្លាំង</string>
+    <string name="condition_959">ខ្យល់ព្យុះកំណាច</string>
+    <string name="condition_960">ខ្យល់ព្យុះ</string>
+    <string name="condition_961">ខ្យល់ព្យុះកំណាច</string>
+    <string name="condition_962">ខ្យល់ព្យុះ</string>
+    <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
 </resources>

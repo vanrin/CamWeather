@@ -1,5 +1,6 @@
 package com.gracejvc.khmerweatherforecast;
 
+
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -89,11 +90,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         mForecastAdapter = new ForecastAdapter(getActivity(),null,0);
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View emptyList =rootView.findViewById(R.id.listview_forecast_empty);
         mListView = (ListView)rootView.findViewById(R.id.listview_forecast);
+        mListView.setEmptyView(emptyList);
         mListView.setAdapter(mForecastAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -175,7 +177,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 sortOrder
         );
     }
-
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
@@ -185,7 +186,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mListView.smoothScrollToPosition(mPosition);
         }
     }
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
