@@ -18,12 +18,13 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
     public final String LOG_TAG = MainActivity.class.getSimpleName();
     private boolean mTwoPane;
-
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         if (findViewById(R.id.weather_detail_container)!=null){
@@ -89,23 +90,23 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     }
 
     @Override
-    public void onItemSelected(String date) {
+    public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle args = new Bundle();
-            args.putString(DetailActivity.DATE_KEY, date);
+            args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
 
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.weather_detail_container, fragment)
+                    .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
                     .commit();
         } else {
             Intent intent = new Intent(this, DetailActivity.class)
-                    .putExtra(DetailActivity.DATE_KEY, date);
+                    .setData(contentUri);
             startActivity(intent);
         }
     }

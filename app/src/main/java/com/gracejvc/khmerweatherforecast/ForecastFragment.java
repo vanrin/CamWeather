@@ -8,13 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gracejvc.khmerweatherforecast.data.WeatherContract;
@@ -30,15 +31,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private ForecastAdapter mForecastAdapter;
     private static final int FORECAST_LOADER = 0;
     private String mLocation;
-    private ListView mListView;
+    private RecyclerView mRecyclerView;
+    private int mPosition = RecyclerView.NO_POSITION;
     private boolean mUseTodayLayout;
-    private int mPosition=ListView.INVALID_POSITION;
     private static final String SELECTED_KEY = "selected_position";
     public interface Callback {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(String date);
+        public void onItemSelected(Uri dateUri);
     }
     private static final String[] FORECAST_COLUMNS={
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -90,27 +91,33 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mForecastAdapter = new ForecastAdapter(getActivity(),null,0);
-        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        View emptyList =rootView.findViewById(R.id.listview_forecast_empty);
-        mListView = (ListView)rootView.findViewById(R.id.listview_forecast);
-        mListView.setEmptyView(emptyList);
-        mListView.setAdapter(mForecastAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View emptyView =rootView.findViewById(R.id.recyclerview_forecast_empty);
+        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerview_forecast);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // The ForecastAdapter will take data from a source and
+        // use it to populate the RecyclerView it's attached to.
+        mForecastAdapter = new ForecastAdapter(getActivity(), new ForecastAdapter.ForecastAdapterOnClickHandler() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-                Cursor cursor = mForecastAdapter.getCursor();
-                if (null!=cursor && cursor.moveToPosition(position)){
-//                    Intent intent = new Intent(getActivity(),DetailActivity.class);
-//                    intent.putExtra(DetailActivity.DATE_KEY, cursor.getString(COL_WEATHER_DATE));
-//                    startActivity(intent);
-                    ((Callback)getActivity()).onItemSelected(cursor.getString(COL_WEATHER_DATE));
-                }
-                mPosition=position;
+            public void onClick(String date, ForecastAdapter.ForecastAdapterViewHolder vh) {
+                String locationSetting = Utility.getPreferredLocation(getActivity());
+                ((Callback) getActivity())
+                        .onItemSelected(WeatherContract.WeatherEntry.BuildWeatherLocationDate(locationSetting, date));
+                mPosition = vh.getAdapterPosition();
+//                Toast.makeText(getActivity(),WeatherContract.WeatherEntry.BuildWeatherLocationDate(locationSetting, date).toString(),Toast.LENGTH_SHORT).show();
             }
-        });
+        }, emptyView);
+
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        mRecyclerView.setAdapter(mForecastAdapter);
+
+
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
@@ -183,7 +190,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if (mPosition != ListView.INVALID_POSITION) {
             // If we don't need to restart the loader, and there's a desired position to restore
             // to, do so now.
-            mListView.smoothScrollToPosition(mPosition);
+            mRecyclerView.smoothScrollToPosition(mPosition);
         }
     }
     @Override

@@ -55,7 +55,6 @@
 
     <TextView
         android:id="@+id/detail_wind_label_textview"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/wind"
         android:textColor="@color/detail_accent_label"

@@ -38,9 +38,10 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity" >
+            android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
+                android:value="com.gracejvc.khmerweatherforecast.MainActivity" />
         </activity>
         <provider
             android:authorities="com.gracejvc.khmerweatherforecast"

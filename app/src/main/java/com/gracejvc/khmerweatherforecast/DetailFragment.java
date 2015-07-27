@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,8 +40,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static String mForecast;
     private static String mLocation;
     private static final int DETAIL_LOADER = 0;
+    static final String DETAIL_URI = "URI";
     private ImageView mIconView;
-//    private TextView mFriendlyDateView;
     private TextView mDateView;
     private TextView mDescriptionView;
     private TextView mHighTempView;
@@ -49,6 +51,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mPressureView;
     private TextView mLocationView;
     public static Typeface battambong;
+    private Uri mUri;
+
+    String[] columns = {
+            WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+            WeatherContract.WeatherEntry.COLUMN_DATETEXT,
+            WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
+            WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
+            WeatherContract.WeatherEntry.COLUMN_DEGREES,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
+            WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
+            WeatherContract.LocationEntry.COLUMN_CITY_NAME
+
+
+    };
     public DetailFragment() {
         setHasOptionsMenu(true);
 
@@ -61,17 +81,19 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mLocation = savedInstanceState.getString(LOCATION_KEY);
         }
 
-        Bundle arguments = getArguments();
-        if (arguments!=null && arguments.containsKey(DetailActivity.DATE_KEY)){
-            getLoaderManager().initLoader(DETAIL_LOADER,null,this);
-        }
-
+//        Bundle arguments = getArguments();
+//        if (arguments!=null && arguments.containsKey(DetailActivity.DATE_KEY)){
+//            getLoaderManager().initLoader(DETAIL_LOADER,null,this);
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+        }
         View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
         mDateView = (TextView) rootView.findViewById(R.id.detail_date_textview);
@@ -100,6 +122,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                 !mLocation.equals(Utility.getPreferredLocation(getActivity()))) {
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
+
     }
     private void finishCreatingMenu(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_share);
@@ -130,44 +153,33 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Intent intent = getActivity().getIntent();
-        if (intent==null || !intent.hasExtra(DetailActivity.DATE_KEY)){
-            return null;
+        if ( null != mUri ) {
+            // Now create and return a CursorLoader that will take care of
+            // creating a Cursor for the data being displayed.
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    columns,
+                    null,
+                    null,
+                    null
+            );
         }
-
-        String[] columns = {
-            WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
-                    WeatherContract.WeatherEntry.COLUMN_DATETEXT,
-                    WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
-                    WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
-                    WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
-                    WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
-                    WeatherContract.WeatherEntry.COLUMN_PRESSURE,
-                    WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
-                    WeatherContract.WeatherEntry.COLUMN_DEGREES,
-                    WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
-                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
-                WeatherContract.LocationEntry.COLUMN_CITY_NAME
-
-
-        };
-        String dateStr = getArguments().getString(DetailActivity.DATE_KEY);
-        mLocation = Utility.getPreferredLocation(getActivity());
-        Uri weatherUri = WeatherContract.WeatherEntry.BuildWeatherLocationDate(mLocation,dateStr);
-        return new CursorLoader(
-                getActivity(),
-                weatherUri,
-                columns,
-                null,
-                null,
-                null
-        );
+        ViewParent vp = getView().getParent();
+        if ( vp instanceof CardView) {
+            ((View)vp).setVisibility(View.INVISIBLE);
+        }
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         if (data != null && data.moveToFirst()) {
+            ViewParent vp = getView().getParent();
+            if ( vp instanceof CardView ) {
+                ((View)vp).setVisibility(View.VISIBLE);
+            }
             battambong = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Battambang.ttf");
             // Read weather condition ID from cursor
             mDateView.setTypeface(battambong);
