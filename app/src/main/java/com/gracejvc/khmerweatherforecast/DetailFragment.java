@@ -36,6 +36,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG=DetailFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASTAG="#CamWeather";
     private static final String LOCATION_KEY = "location";
+    static final String DETAIL_TRANSITION_ANIMATION = "DTA";
+    private boolean mTransitionAnimation;
     ShareActionProvider mShareActionProvider;
     private static String mForecast;
     private static String mLocation;
@@ -81,10 +83,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mLocation = savedInstanceState.getString(LOCATION_KEY);
         }
 
-//        Bundle arguments = getArguments();
-//        if (arguments!=null && arguments.containsKey(DetailActivity.DATE_KEY)){
-//            getLoaderManager().initLoader(DETAIL_LOADER,null,this);
-//        }
     }
 
     @Override
@@ -93,6 +91,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+            mTransitionAnimation = arguments.getBoolean(DetailFragment.DETAIL_TRANSITION_ANIMATION, false);
         }
         View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
@@ -198,8 +197,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             lblPressure.setTypeface(battambong);
             lblWind.setTypeface(battambong);
             int weatherId = data.getInt(data.getColumnIndex(WeatherEntry.COLUMN_WEATHER_ID));
-            // Use placeholder Image
-//            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+
             Glide.with(this)
                     .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
                     .error(Utility.getArtResourceForWeatherCondition(weatherId))
@@ -257,7 +255,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Toolbar toolbarView = (Toolbar) getView().findViewById(R.id.toolbar);
 
         // We need to start the enter transition after the data has loaded
-        if (activity instanceof DetailActivity) {
+        if (mTransitionAnimation) {
             activity.supportStartPostponedEnterTransition();
 
             if ( null != toolbarView ) {

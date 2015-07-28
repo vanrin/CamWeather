@@ -1,8 +1,11 @@
 package com.gracejvc.khmerweatherforecast;
 
 
+import android.app.Activity;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -10,12 +13,15 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.gracejvc.khmerweatherforecast.data.WeatherContract;
@@ -33,13 +39,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private String mLocation;
     private RecyclerView mRecyclerView;
     private int mPosition = RecyclerView.NO_POSITION;
-    private boolean mUseTodayLayout;
+    private boolean mUseTodayLayout,mAutoSelectView;
+    private int mChoiceMode;
+    private boolean mHoldForTransition;
     private static final String SELECTED_KEY = "selected_position";
     public interface Callback {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(Uri dateUri);
+        public void onItemSelected(Uri dateUri,ForecastAdapter.ForecastAdapterViewHolder vh);
     }
     private static final String[] FORECAST_COLUMNS={
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -69,13 +77,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        if (mHoldForTransition){
+            getActivity().supportPostponeEnterTransition();
+        }
         getLoaderManager().initLoader(FORECAST_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragement_menu,menu);
+        inflater.inflate(R.menu.fragement_menu, menu);
     }
 
     @Override
@@ -87,7 +98,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+        TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.ForecastFragment,
+                0, 0);
+        mHoldForTransition = a.getBoolean(R.styleable.ForecastFragment_sharedElementTransitions,false);
+        mChoiceMode = a.getInt(R.styleable.ForecastFragment_android_choiceMode, AbsListView.CHOICE_MODE_NONE);
+        mAutoSelectView = a.getBoolean(R.styleable.ForecastFragment_autoSelectView, false);
+        a.recycle();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,34 +128,65 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             public void onClick(String date, ForecastAdapter.ForecastAdapterViewHolder vh) {
                 String locationSetting = Utility.getPreferredLocation(getActivity());
                 ((Callback) getActivity())
-                        .onItemSelected(WeatherContract.WeatherEntry.BuildWeatherLocationDate(locationSetting, date));
+                        .onItemSelected(WeatherContract.WeatherEntry.BuildWeatherLocationDate(locationSetting, date),vh);
                 mPosition = vh.getAdapterPosition();
 //                Toast.makeText(getActivity(),WeatherContract.WeatherEntry.BuildWeatherLocationDate(locationSetting, date).toString(),Toast.LENGTH_SHORT).show();
             }
-        }, emptyView);
+        }, emptyView,mChoiceMode);
 
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         mRecyclerView.setAdapter(mForecastAdapter);
-
+        final View parallaxView = rootView.findViewById(R.id.parallax_bar);
+        if(null!=parallaxView){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+                mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        int max = parallaxView.getHeight();
+                        if (dy>0){
+                            parallaxView.setTranslationY(Math.max(-max,parallaxView.getTranslationY()-dy/2));
+                        }
+                        else {
+                            parallaxView.setTranslationY(Math.min(0,parallaxView.getTranslationY()-dy/2));
+                        }
+                    }
+                });
+            }
+        }
 
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
         // or magically appeared to take advantage of room, but data or place in the app was never
         // actually *lost*.
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            // The listview probably hasn't even been populated yet.  Actually perform the
-            // swapout in onLoadFinished.
-            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SELECTED_KEY)) {
+                // The Recycler View probably hasn't even been populated yet.  Actually perform the
+                // swapout in onLoadFinished.
+                mPosition = savedInstanceState.getInt(SELECTED_KEY);
+            }
+            mForecastAdapter.onRestoreInstanceState(savedInstanceState);
         }
+
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null!=mRecyclerView){
+            mRecyclerView.clearOnScrollListeners();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mPosition!=ListView.INVALID_POSITION){
-            outState.putInt(SELECTED_KEY,mPosition);
+            outState.putInt(SELECTED_KEY, mPosition);
         }
+        mForecastAdapter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
@@ -187,10 +238,36 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
-        if (mPosition != ListView.INVALID_POSITION) {
+        if (mPosition != RecyclerView.NO_POSITION) {
             // If we don't need to restart the loader, and there's a desired position to restore
             // to, do so now.
             mRecyclerView.smoothScrollToPosition(mPosition);
+        }
+        if ( data.getCount() == 0 ) {
+            getActivity().supportPostponeEnterTransition();
+        }
+        else {
+            mRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    // Since we know we're going to get items, we keep the listener around until
+                    // we see Children.
+                    if (mRecyclerView.getChildCount() > 0) {
+                        mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        int itemPosition = mForecastAdapter.getSelectedItemPosition();
+                        if (RecyclerView.NO_POSITION == itemPosition) itemPosition = 0;
+                        RecyclerView.ViewHolder vh = mRecyclerView.findViewHolderForAdapterPosition(itemPosition);
+                        if (null != vh && mAutoSelectView) {
+                            mForecastAdapter.selectView(vh);
+                        }
+                        if ( mHoldForTransition ) {
+                            getActivity().supportStartPostponedEnterTransition();
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
     }
     @Override

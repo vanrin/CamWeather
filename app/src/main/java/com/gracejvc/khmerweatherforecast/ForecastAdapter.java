@@ -3,6 +3,8 @@ package com.gracejvc.khmerweatherforecast;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +27,25 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     public static Typeface battambong;
     final private ForecastAdapterOnClickHandler mClickHandler;
     final private View mEmptyView;
+    final private ItemChoiceManager mICM;
 
 
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        mICM.onRestoreInstanceState(savedInstanceState);
+    }
 
+    public void onSaveInstanceState(Bundle outState) {
+        mICM.onSaveInstanceState(outState);
+    }
+    public int getSelectedItemPosition() {
+        return mICM.getSelectedItemPosition();
+    }
+    public void selectView(RecyclerView.ViewHolder viewHolder) {
+        if ( viewHolder instanceof ForecastAdapterViewHolder ) {
+            ForecastAdapterViewHolder vfh = (ForecastAdapterViewHolder)viewHolder;
+            vfh.onClick(vfh.itemView);
+        }
+    }
     public void setUseTodayLayout(boolean useTodayLayout) {
         mUseTodayLayout = useTodayLayout;
     }
@@ -57,11 +75,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     public Cursor getCursor() {
         return mCursor;
     }
-    public ForecastAdapter(Context context,ForecastAdapterOnClickHandler dh,View emptyView) {
+    public ForecastAdapter(Context context,ForecastAdapterOnClickHandler dh,View emptyView,int choiceMode) {
         mContext = context;
         battambong= Typeface.createFromAsset(context.getAssets(),"fonts/Battambang.ttf");
         mClickHandler = dh;
         mEmptyView = emptyView;
+        mICM = new ItemChoiceManager(this);
+        mICM.setChoiceMode(choiceMode);
     }
     @Override
     public ForecastAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -86,9 +106,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     }
 
     @Override
-    public void onBindViewHolder(ForecastAdapterViewHolder forecastAdapterViewHolder,int positoin) {
-        mCursor.moveToPosition(positoin);
-        int viewType =getItemViewType(positoin);
+    public void onBindViewHolder(ForecastAdapterViewHolder forecastAdapterViewHolder,int position) {
+        mCursor.moveToPosition(position);
+        int viewType =getItemViewType(position);
         int weatherId = mCursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         int fallBackIconId;
         switch (viewType){
@@ -111,7 +131,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         //  Get city name
         String cityName = mCursor.getString(ForecastFragment.COL_CITY_NAME);
         forecastAdapterViewHolder.locationView.setText(cityName);
-
+// this enables better animations. even if we lose state due to a device rotation,
+        // the animator can use this to re-find the original view
+        ViewCompat.setTransitionName(forecastAdapterViewHolder.iconView, "iconView" + position);
         // Read date from cursor
         String dateString = mCursor.getString(ForecastFragment.COL_WEATHER_DATE);
 
@@ -133,6 +155,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         // Read low temperature from cursor
         double low = mCursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
         forecastAdapterViewHolder.lowTempView.setText(Utility.formatTemperature(mContext, low, isMetric));
+        mICM.onBindViewHolder(forecastAdapterViewHolder,position);
     }
     public class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final ImageView iconView;
@@ -161,6 +184,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
             mCursor.moveToPosition(adapterPosition);
             String fareCastDate = mCursor.getString(ForecastFragment.COL_WEATHER_DATE);
             mClickHandler.onClick(fareCastDate, this);
+            mICM.onClick(this);
         }
     }
 }

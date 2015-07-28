@@ -8,7 +8,8 @@
         <item name="toolbarStyle">@style/Toolbar</item>
     </style>
 
-
+    <style name="AppTheme.Main" parent="@style/AppTheme"/>
+    <style name="AppTheme.Details" parent="@style/AppTheme"/>
     <!-- Settings activity theme. -->
     <style name="SettingsTheme" parent="AppTheme">
     </style>
@@ -20,7 +21,7 @@
     </style>
 
     <!-- Style for forecast listview -->
-    <style name="ForecastListStyle">
+    <style name="ForecastStyle">
         <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
         for two-pane layout -->
     </style>

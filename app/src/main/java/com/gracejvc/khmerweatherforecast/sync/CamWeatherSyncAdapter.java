@@ -364,6 +364,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setSmallIcon(iconId)
                                     .setLargeIcon(largeIcon)
                                     .setContentTitle(title)
+                                    .setAutoCancel(true)
                                     .setContentText(contentText);
 
                     // Make something interesting happen when the user clicks on the notification.

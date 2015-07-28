@@ -6,7 +6,8 @@
     <string name="action_maps">Maps Location</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_share">Share</string>
-
+    <!-- For Shared Element Transitions -->
+    <string name="detail_icon_transition" translatable="false">TN_DetailIcon</string>
     <string name="pref_units_key" translatable="false">units</string>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
