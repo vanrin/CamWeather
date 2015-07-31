@@ -141,7 +141,7 @@ public class TestProvider extends AndroidTestCase {
 
         // Get the joined Weather data for a specific date
         weatherCursor = mContext.getContentResolver().query(
-                WeatherEntry.BuildWeatherLocationDate(TestDb.TEST_LOCATION, TestDb.TEST_DATE),
+                WeatherEntry.BuildWeatherLocationWithDate(TestDb.TEST_LOCATION, TestDb.TEST_DATE),
                 null,
                 null,
                 null,
@@ -166,7 +166,7 @@ public class TestProvider extends AndroidTestCase {
         String testDate = "20140612";
         // content://com.example.android.sunshine.app/weather/94074/20140612
         type = mContext.getContentResolver().getType(
-                WeatherEntry. BuildWeatherLocationDate(testLocation, testDate));
+                WeatherEntry.BuildWeatherLocationWithDate(testLocation, testDate));
         // vnd.android.cursor.item/com.example.android.sunshine.app/weather
         assertEquals(WeatherEntry.CONTENT_ITEM_TYPE, type);
 
