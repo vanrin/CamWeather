@@ -300,8 +300,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             String lastNotificationKey = context.getString(R.string.pref_last_notification);
 
             long lastSync = prefs.getLong(lastNotificationKey, 0);
-
-            if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
+            if (System.currentTimeMillis() - lastSync >= 0) {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
                 String locationQuery = Utility.getPreferredLocation(context);
 
@@ -312,9 +311,9 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 if (cursor.moveToFirst()) {
                     int weatherId = cursor.getInt(INDEX_WEATHER_ID);
-                    double high = cursor.getDouble(INDEX_MAX_TEMP);
-                    double low = cursor.getDouble(INDEX_MIN_TEMP);
-                    String desc = cursor.getString(INDEX_SHORT_DESC);
+//                    double high = cursor.getDouble(INDEX_MAX_TEMP);
+//                    double low = cursor.getDouble(INDEX_MIN_TEMP);
+                    String desc = Utility.getNotificationDescription(context,weatherId);
 
                     int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
 
@@ -350,10 +349,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                     String title = context.getString(R.string.app_name);
 
                     // Define the text of the forecast.
-                    String contentText = String.format(context.getString(R.string.format_notification),
-                            desc,
-                            Utility.formatTemperature(context, high, Utility.isMetric(context)),
-                            Utility.formatTemperature(context, low, Utility.isMetric(context)));
+                    String contentText = String.format(context.getString(R.string.format_notification), desc);
 
                     //build your notification here.
 // NotificationCompatBuilder is a very convenient way to build backward-compatible

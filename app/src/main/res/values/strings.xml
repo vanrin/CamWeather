@@ -52,8 +52,7 @@
     <string name="pref_last_sync">last_sync</string>
 
     <!-- Notification Format -->
-    <string name="format_notification">
-        Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g>
+    <string name="format_notification"><xliff:g id="condition">%1$s</xliff:g>
     </string>
 
     <!-- Strings related to Notification preference -->
@@ -166,4 +165,14 @@
     <string name="condition_961">ខ្យល់ព្យុះកំណាច</string>
     <string name="condition_962">ខ្យល់ព្យុះ</string>
     <string name="condition_unknown">Unknown (<xliff:g id="low">%1$s</xliff:g>)</string>
+
+    <!-- Notify Weather Description-->
+    <string name="Notify_Storm">សូមមេតាប្រុងប្រយ័ត្ន!!ថ្ងៃនេះអាចនិងមានខ្យល់ព្យុះកើតឡើង</string>
+    <string name="Notify_Rain">ថ្ងៃនេះប្រហែលជាមានភ្លៀងធ្លាក់ សូមដាក់អាវភ្លៀងឬឆ័ត្រតាមខ្លួនបើសិនជាចេញទៅក្រៅ</string>
+    <string name="Notify_Snow">ថ្ងៃនេះប្រហែលជាមានព្រិលធ្លាក់ សូមថែរក្សាសុខភាពកុំអោយផ្ដាស៏សាយ</string>
+    <string name="Notify_Fog">ថ្ងៃនេះប្រហែលជាមានចុះអ័ភ្រ</string>
+    <string name="Notify_Clear">ថ្ងៃនេះមេឃស្រលាស់ល្អ!! សំណាងល្អ!!</string>
+    <string name="Notify_Cloudy">ពពកច្រើន</string>
 </resources>
+
+

@@ -466,4 +466,31 @@ public class Utility {
         }
         return null;
     }
+
+    public static String getNotificationDescription(Context context,int weatherId){
+        if (weatherId >= 200 && weatherId <= 232) {
+            return context.getString(R.string.Notify_Storm);
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            return context.getString(R.string.Notify_Rain);
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            return context.getString(R.string.Notify_Rain);
+        } else if (weatherId == 511) {
+            return context.getString(R.string.Notify_Snow);
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            return context.getString(R.string.Notify_Rain);
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            return context.getString(R.string.Notify_Snow);
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            return context.getString(R.string.Notify_Fog);
+        } else if (weatherId == 761 || weatherId == 781) {
+            return context.getString(R.string.Notify_Storm);
+        } else if (weatherId == 800) {
+            return context.getString(R.string.Notify_Clear);
+        } else if (weatherId == 801) {
+            return context.getString(R.string.Notify_Cloudy);
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            return context.getString(R.string.Notify_Cloudy);
+        }
+        return null;
+    }
 }

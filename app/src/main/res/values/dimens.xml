@@ -34,5 +34,5 @@
     <dimen name="forecast_temperature_space">8dp</dimen>
     <!-- Extra Padding -->
     <dimen name="detail_view_extra_padding">@dimen/abc_list_item_padding_horizontal_material</dimen>
-    <dimen name="landscape_forecast_view_width">380dp</dimen>
+    <dimen name="landscape_forecast_view_width">400dp</dimen>
 </resources>

@@ -2,18 +2,25 @@ package com.gracejvc.khmerweatherforecast;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.gracejvc.khmerweatherforecast.sync.CamWeatherSyncAdapter;
 
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     public final String LOG_TAG = MainActivity.class.getSimpleName();
     private boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    CollapsingToolbarLayout collapsingToolbar;
+   // int mutedColor = R.attr.colorPrimary;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +40,25 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         toolbar.inflateMenu(R.menu.menu_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+//        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            collapsingToolbar.setTitle("CamWeather");
+            ImageView header = (ImageView) findViewById(R.id.header);
+            header.setImageResource(R.drawable.header);
+            Bitmap bitmap = ((BitmapDrawable)header.getDrawable()).getBitmap();
+            collapsingToolbar.setContentScrimColor(Color.BLUE);
+            collapsingToolbar.setStatusBarScrimColor(Color.GREEN);
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    int primaryDark = getResources().getColor(R.color.primary_dark);
+                    int primary = getResources().getColor(R.color.primary);
+                    collapsingToolbar.setContentScrimColor(palette.getMutedColor(primary));
+                    collapsingToolbar.setStatusBarScrimColor(palette.getDarkVibrantColor(primaryDark));
+                }
+            });}
         if (findViewById(R.id.weather_detail_container)!=null){
             mTwoPane =true;
             if (savedInstanceState==null){

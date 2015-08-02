@@ -46,12 +46,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private int mChoiceMode;
     private boolean mHoldForTransition;
     private static final String SELECTED_KEY = "selected_position";
+
+
     public interface Callback {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
         public void onItemSelected(Uri dateUri,ForecastAdapter.ForecastAdapterViewHolder vh);
     }
+
     private static final String[] FORECAST_COLUMNS={
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
             WeatherContract.WeatherEntry.COLUMN_DATETEXT,
