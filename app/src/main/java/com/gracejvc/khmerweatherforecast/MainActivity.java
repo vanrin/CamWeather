@@ -16,6 +16,8 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.telecom.TelecomManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,14 +44,16 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 //        getSupportActionBar().setHomeButtonEnabled(true);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        boolean isLand = getResources().getBoolean(R.bool.isLand);
+        if (!isLand && !isTablet){
             collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
             collapsingToolbar.setTitle("CamWeather");
             ImageView header = (ImageView) findViewById(R.id.header);
             header.setImageResource(R.drawable.header);
             Bitmap bitmap = ((BitmapDrawable)header.getDrawable()).getBitmap();
-            collapsingToolbar.setContentScrimColor(Color.BLUE);
-            collapsingToolbar.setStatusBarScrimColor(Color.GREEN);
+            collapsingToolbar.setContentScrimResource(R.color.primary);
+//            collapsingToolbar.setStatusBarScrimColor(Color.GREEN);
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {

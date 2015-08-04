@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="layout" name="fragment_detail_start">@layout/fragment_detail_twopane</item>
+    <bool name="isTablet">true</bool>
+    <bool name="isLand">true</bool>
 </resources>
