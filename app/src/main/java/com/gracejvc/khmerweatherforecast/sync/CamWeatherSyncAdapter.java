@@ -19,6 +19,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -300,7 +301,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             String lastNotificationKey = context.getString(R.string.pref_last_notification);
 
             long lastSync = prefs.getLong(lastNotificationKey, 0);
-            if (System.currentTimeMillis() - lastSync >= 0) {
+            if (System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
                 String locationQuery = Utility.getPreferredLocation(context);
 
@@ -313,7 +314,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                     int weatherId = cursor.getInt(INDEX_WEATHER_ID);
 //                    double high = cursor.getDouble(INDEX_MAX_TEMP);
 //                    double low = cursor.getDouble(INDEX_MIN_TEMP);
-                    String desc = Utility.getNotificationDescription(context,weatherId);
+                    String desc = Utility.getNotificationDescription(context, weatherId);
 
                     int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
 
@@ -350,7 +351,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
 
                     // Define the text of the forecast.
                     String contentText = String.format(context.getString(R.string.format_notification), desc);
-
+Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     //build your notification here.
 // NotificationCompatBuilder is a very convenient way to build backward-compatible
                     // notifications.  Just throw in some data.
@@ -361,6 +362,7 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setLargeIcon(largeIcon)
                                     .setContentTitle(title)
                                     .setAutoCancel(true)
+                                    .setSound(sound)
                                     .setContentText(contentText);
 
                     // Make something interesting happen when the user clicks on the notification.
@@ -393,6 +395,8 @@ public class CamWeatherSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
     }
+
+
     /**
      * Helper method to handle insertion of a new location in the weather database.
      *

@@ -82,6 +82,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         if ( key.equals(getString(R.string.pref_location_key)) ) {
             // we've changed the location
             // first clear locationStatus
+//            MainActivity.collapsingToolbar.setTitle(Utility.getPreferredLocation(this));
             CamWeatherSyncAdapter.syncImmediately(this);
         } else if ( key.equals(getString(R.string.pref_units_key)) ) {
             // units have changed. update lists of weather entries accordingly

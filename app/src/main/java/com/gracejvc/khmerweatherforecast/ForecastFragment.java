@@ -14,6 +14,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -41,6 +42,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int FORECAST_LOADER = 0;
     private String mLocation;
     private RecyclerView mRecyclerView;
+    public static SwipeRefreshLayout mSwipeRefreshLayout;
     private int mPosition = RecyclerView.NO_POSITION;
     private boolean mUseTodayLayout,mAutoSelectView;
     private int mChoiceMode;
@@ -89,21 +91,21 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(FORECAST_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragement_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.fragement_menu, menu);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id==R.id.action_refresh){
-            updateWeather();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id==R.id.action_refresh){
+//            updateWeather();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
     @Override
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
@@ -119,9 +121,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        View emptyView =rootView.findViewById(R.id.recyclerview_forecast_empty);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+                View emptyView =rootView.findViewById(R.id.recyclerview_forecast_empty);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerview_forecast);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
