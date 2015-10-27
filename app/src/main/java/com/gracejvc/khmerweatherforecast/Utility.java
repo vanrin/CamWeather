@@ -39,9 +39,42 @@ public class Utility {
 //        Date date = WeatherContract.getDateFromDb(dateString);
 //        return getKhmerDate(date);
 //    }
+    public  enum DayOfWeek{
+    MONDAY("ចន្ទ"),TUESDAY("អង្គារ"),WEDNESDAY("ពុធ"),THURSDAY("ព្រហស្បត្ត៏"),FRIDAY("សុក្រ"),SATURDAY("សៅរ៏​"),SUNDAY("អាទិត្យ");
+    private final String dayName;
+
+    DayOfWeek(String dayName) {
+        this.dayName = dayName;
+    }
+
+    public String getDayName() {
+        return dayName;
+    }
+}
+    public enum MonthOfYear{
+        JANUARY("មករា"),
+        FEBRUARY("កុម្ភះ"),
+        MARCH("មិនា"),
+        APRIL("មេសា"),
+        MAY("ឩសភា"),
+        JUNE("មិថុនា"),
+        JULY("កក្កដា"),
+        AUGUST("សីហា"),
+        SEPTEMBER("កញ្ញា"),
+        OCTOBER("តុលា"),
+        NOVEMBER("វិច្ឆិកា"),
+        DECEMBER("ធ្នូរ");
+        private final String monthName;
+
+        MonthOfYear(String monthName) {
+            this.monthName = monthName;
+        }
+
+        public String getMonthName() {
+            return monthName;
+        }
+    }
 //    public static final String DATE_FORMAT = "yyyyMMdd";
-    public static enum dayOfWeek{ច័ន្ទ,អង្គារ,ពុធ,ព្រហស្បតិ,សុក្រ,សៅរ៏ ,អាទិត្យ}
-    public static enum monthOfYear{មករា ,កុម្ភះ,មិនា ,មេសា ,ឧសភា ,មិថុនា ,កកដ្ដា,សីហា ,កញ្ញា,តុលា ,វិច្ឆិកា,ធ្នួរ}
 //   static String getKhmerDate(Date date){
 //       String khmerDate=getKhmerDay(date)+ " - " + getKhmerMonth(date)+ " - " + date.getDate()+"th";
 //       return khmerDate;
@@ -49,33 +82,33 @@ public class Utility {
     static String getKhmerDay(Date date){
         String khmerDay;
         switch (date.getDay()){
-            case 1:{khmerDay=dayOfWeek.ច័ន្ទ.toString();break;}
-            case 2:{khmerDay=dayOfWeek.អង្គារ.toString();break;}
-            case 3:{khmerDay=dayOfWeek.ពុធ .toString();break;}
-            case 4:{khmerDay=dayOfWeek.ព្រហស្បតិ .toString();break;}
-            case 5:{khmerDay=dayOfWeek.សុក្រ .toString();break;}
-            case 6:{khmerDay=dayOfWeek.សៅរ៏  .toString();break;}
-            case 7:{khmerDay=dayOfWeek.អាទិត្យ.toString();break;}
-            default:{khmerDay= dayOfWeek.អាទិត្យ.toString();}
+            case 1:{khmerDay=DayOfWeek.MONDAY.getDayName();break;}
+            case 2:{khmerDay=DayOfWeek.TUESDAY.getDayName();break;}
+            case 3:{khmerDay=DayOfWeek.WEDNESDAY.getDayName();break;}
+            case 4:{khmerDay=DayOfWeek.THURSDAY.getDayName();break;}
+            case 5:{khmerDay=DayOfWeek.FRIDAY.getDayName();break;}
+            case 6:{khmerDay=DayOfWeek.SATURDAY.getDayName();break;}
+            case 7:{khmerDay=DayOfWeek.SUNDAY.getDayName();break;}
+            default:{khmerDay= DayOfWeek.SUNDAY.getDayName();}
         }
         return khmerDay;
     }
     static String getKhmerMonth(Date date){
         String khmerMonth;
         switch (date.getMonth()){
-            case 0:{khmerMonth= monthOfYear.មករា .toString();break;}
-            case 1:{khmerMonth=monthOfYear.កុម្ភះ.toString();break;}
-            case 2:{khmerMonth=monthOfYear.មិនា .toString();break;}
-            case 3:{khmerMonth=monthOfYear.មេសា .toString();break;}
-            case 4:{khmerMonth=monthOfYear.ឧសភា .toString();break;}
-            case 5:{khmerMonth=monthOfYear.មិថុនា .toString();break;}
-            case 6:{khmerMonth=monthOfYear.កកដ្ដា.toString();break;}
-            case 7:{khmerMonth = monthOfYear.សីហា .toString();break;}
-            case 8:{khmerMonth= monthOfYear.កញ្ញា.toString();break;}
-            case 9:{khmerMonth= monthOfYear.តុលា .toString();break;}
-            case 10:{khmerMonth = monthOfYear.វិច្ឆិកា.toString();break;}
-            case 11:{khmerMonth = monthOfYear.ធ្នួរ.toString();break;}
-            default:{khmerMonth=monthOfYear.ធ្នួរ.toString();}
+            case 0:{khmerMonth= MonthOfYear.JANUARY.getMonthName();break;}
+            case 1:{khmerMonth=MonthOfYear.FEBRUARY.getMonthName();break;}
+            case 2:{khmerMonth=MonthOfYear.MARCH.getMonthName();break;}
+            case 3:{khmerMonth=MonthOfYear.APRIL.getMonthName();break;}
+            case 4:{khmerMonth=MonthOfYear.MAY.getMonthName();break;}
+            case 5:{khmerMonth=MonthOfYear.JUNE.getMonthName();break;}
+            case 6:{khmerMonth=MonthOfYear.JULY.getMonthName();break;}
+            case 7:{khmerMonth =MonthOfYear.AUGUST.getMonthName();break;}
+            case 8:{khmerMonth=MonthOfYear.SEPTEMBER.getMonthName();break;}
+            case 9:{khmerMonth=MonthOfYear.OCTOBER.getMonthName();break;}
+            case 10:{khmerMonth =MonthOfYear.NOVEMBER.getMonthName();break;}
+            case 11:{khmerMonth =MonthOfYear.DECEMBER.getMonthName();break;}
+            default:{khmerMonth=MonthOfYear.DECEMBER.getMonthName();}
         }
         return khmerMonth;
     }

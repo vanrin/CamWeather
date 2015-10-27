@@ -3,9 +3,7 @@ package com.gracejvc.khmerweatherforecast;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,9 +17,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.telecom.TelecomManager;
-import android.telephony.TelephonyManager;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +24,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.gracejvc.khmerweatherforecast.sync.CamWeatherSyncAdapter;
-
-import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback,AppBarLayout.OnOffsetChangedListener {

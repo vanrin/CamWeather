@@ -55,7 +55,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         return (position==0 && mUseTodayLayout)?VIEW_TYPE_TODAY:VIEW_TYPE_FUTURE_DAY;
     }
 
-    public static interface ForecastAdapterOnClickHandler {
+    public interface ForecastAdapterOnClickHandler {
         void onClick(String date, ForecastAdapterViewHolder vh);
     }
 
